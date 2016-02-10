@@ -66,7 +66,8 @@ class Router extends Component {
 		routers.splice(routers.indexOf(this), 1);
 	}
 
-	render({ children, onChange }, { url }) {
+	render({ children, onChange, forceUrl }, { url }) {
+		url = forceUrl || url;
 		let active = children.slice().sort(pathRankSort).filter( ({ attributes }) => {
 			let path = attributes.path,
 				matches = exec(url, path, attributes);
