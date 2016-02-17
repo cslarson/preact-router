@@ -3,8 +3,6 @@ import { exec, pathRankSort } from './util';
 
 const routers = [];
 
-const EMPTY = {};
-
 function route(url, replace=false) {
 	if (typeof url!=='string' && url.url) {
 		replace = url.replace;
@@ -25,9 +23,10 @@ function routeTo(url) {
 	routers.forEach( router => router.routeTo(url) );
 }
 
-function getCurrentUrl() {
-	let url = typeof location!=='undefined' ? location : EMPTY;
-	return `${url.pathname || ''}${url.search || ''}`;
+function getCurrentUrl(serverUrl) {
+	return typeof location!=='undefined' ?
+		`${location.pathname || ''}${location.search || ''}` :
+		serverUrl || '';
 }
 
 if (typeof addEventListener==='function') {
@@ -50,8 +49,10 @@ const Link = ({ children, ...props }) => (
 
 
 class Router extends Component {
-	getInitialState() {
-		return { url: getCurrentUrl() };
+	constructor(props) {
+		super();
+		// set initial url
+		this.state.url = getCurrentUrl(props && props.serverUrl);
 	}
 
 	routeTo(url) {
@@ -66,8 +67,7 @@ class Router extends Component {
 		routers.splice(routers.indexOf(this), 1);
 	}
 
-	render({ children, onChange, forceUrl }, { url }) {
-		url = forceUrl || url;
+	render({ children, onChange }, { url }) {
 		let active = children.slice().sort(pathRankSort).filter( ({ attributes }) => {
 			let path = attributes.path,
 				matches = exec(url, path, attributes);

@@ -77,5 +77,33 @@ describe('preact-router', () => {
 				router.render({ children }, { url:'/asdf/asdf' })
 			).to.equal(children[0]);
 		});
+
+		it('should support initial url passed as prop', () => {
+			let router = new Router({serverUrl: "/foo"});
+			let children = [
+				<foo default />,
+				<foo path="/" />,
+				<foo path="/foo" />
+			];
+
+			console.log(router.state);
+
+			expect(
+				router.render({ children }, router.state)
+			).to.equal(children[2]);
+
+			expect(
+				router.render({ children }, { url:'/foo' })
+			).to.equal(children[2]);
+
+			expect(
+				router.render({ children }, { url:'/' })
+			).to.equal(children[1]);
+
+			expect(
+				router.render({ children }, { url:'/asdf/asdf' })
+			).to.equal(children[0]);
+		});
+
 	});
 });

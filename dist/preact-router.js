@@ -53,10 +53,10 @@
 	    throw new TypeError("Cannot call a class as a function");
 	  }
 	};
-	var EMPTY$1 = {};
+	var EMPTY = {};
 
 	function exec(url, route) {
-		var opts = arguments.length <= 2 || arguments[2] === undefined ? EMPTY$1 : arguments[2];
+		var opts = arguments.length <= 2 || arguments[2] === undefined ? EMPTY : arguments[2];
 
 		var reg = /(?:\?([^#]*))?(#.*)?$/,
 		    c = url.match(reg),
@@ -87,8 +87,8 @@
 	}
 
 	function pathRankSort(a, b) {
-		var aAttr = a.attributes || EMPTY$1,
-		    bAttr = b.attributes || EMPTY$1;
+		var aAttr = a.attributes || EMPTY,
+		    bAttr = b.attributes || EMPTY;
 		if (aAttr['default']) return 1;
 		if (bAttr['default']) return -1;
 		var diff = rank(aAttr.path) - rank(bAttr.path);
@@ -108,8 +108,6 @@
 	}
 
 	var routers = [];
-
-	var EMPTY = {};
 
 	function route(url) {
 		var replace = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
@@ -134,9 +132,8 @@
 		});
 	}
 
-	function getCurrentUrl() {
-		var url = typeof location !== 'undefined' ? location : EMPTY;
-		return '' + (url.pathname || '') + (url.search || '');
+	function getCurrentUrl(serverUrl) {
+		return typeof location !== 'undefined' ? '' + (location.pathname || '') + (location.search || '') : serverUrl || '';
 	}
 
 	if (typeof addEventListener === 'function') {
@@ -166,15 +163,13 @@
 	var Router = (function (_Component) {
 		babelHelpers.inherits(Router, _Component);
 
-		function Router() {
+		function Router(props) {
 			babelHelpers.classCallCheck(this, Router);
 
-			_Component.apply(this, arguments);
+			_Component.call(this);
+			// set initial url
+			this.state.url = getCurrentUrl(props && props.serverUrl);
 		}
-
-		Router.prototype.getInitialState = function getInitialState() {
-			return { url: getCurrentUrl() };
-		};
 
 		Router.prototype.routeTo = function routeTo(url) {
 			this.setState({ url: url });
@@ -191,10 +186,8 @@
 		Router.prototype.render = function render(_ref2, _ref3) {
 			var children = _ref2.children;
 			var onChange = _ref2.onChange;
-			var forceUrl = _ref2.forceUrl;
 			var url = _ref3.url;
 
-			url = forceUrl || url;
 			var active = children.slice().sort(pathRankSort).filter(function (_ref4) {
 				var attributes = _ref4.attributes;
 
