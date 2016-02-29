@@ -79,7 +79,7 @@ describe('preact-router', () => {
 		});
 
 		it('should support initial url passed as prop', () => {
-			let router = new Router({serverUrl: "/foo"});
+			let router = new Router({url: "/foo"});
 			let children = [
 				<foo default />,
 				<foo path="/" />,

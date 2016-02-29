@@ -132,8 +132,8 @@
 		});
 	}
 
-	function getCurrentUrl(serverUrl) {
-		return typeof location !== 'undefined' ? '' + (location.pathname || '') + (location.search || '') : serverUrl || '';
+	function getCurrentUrl(url) {
+		return typeof location !== 'undefined' ? '' + (location.pathname || '') + (location.search || '') : url || '';
 	}
 
 	if (typeof addEventListener === 'function') {
@@ -168,7 +168,7 @@
 
 			_Component.call(this);
 			// set initial url
-			this.state.url = getCurrentUrl(props && props.serverUrl);
+			this.state.url = getCurrentUrl(props && props.url);
 		}
 
 		Router.prototype.routeTo = function routeTo(url) {

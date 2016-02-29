@@ -23,10 +23,10 @@ function routeTo(url) {
 	routers.forEach( router => router.routeTo(url) );
 }
 
-function getCurrentUrl(serverUrl) {
+function getCurrentUrl(url) {
 	return typeof location!=='undefined' ?
 		`${location.pathname || ''}${location.search || ''}` :
-		serverUrl || '';
+		url || '';
 }
 
 if (typeof addEventListener==='function') {
@@ -52,7 +52,7 @@ class Router extends Component {
 	constructor(props) {
 		super();
 		// set initial url
-		this.state.url = getCurrentUrl(props && props.serverUrl);
+		this.state.url = getCurrentUrl(props && props.url);
 	}
 
 	routeTo(url) {
