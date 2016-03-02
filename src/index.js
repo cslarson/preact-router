@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { exec, pathRankSort } from './util';
 
-const routers = [];
+// const routers = [];
 
 function route(url, replace=false) {
 	if (typeof url!=='string' && url.url) {
@@ -16,22 +16,22 @@ function route(url, replace=false) {
 			history.pushState(null, null, url);
 		}
 	}
-	routeTo(url);
+	// routeTo(url);
 }
+//
+// function routeTo(url) {
+// 	routers.forEach( router => router.routeTo(url) );
+// }
 
-function routeTo(url) {
-	routers.forEach( router => router.routeTo(url) );
-}
-
-function getCurrentUrl(url) {
-	return typeof location!=='undefined' ?
-		`${location.pathname || ''}${location.search || ''}` :
-		url || '';
-}
-
-if (typeof addEventListener==='function') {
-	addEventListener('popstate', () => routeTo(getCurrentUrl()));
-}
+// function getCurrentUrl(url) {
+// 	return typeof location!=='undefined' ?
+// 		`${location.pathname || ''}${location.search || ''}` :
+// 		url || '';
+// }
+//
+// if (typeof addEventListener==='function') {
+// 	addEventListener('popstate', () => routeTo(getCurrentUrl()));
+// }
 
 
 function handleLinkClick(e) {
@@ -49,25 +49,25 @@ const Link = ({ children, ...props }) => (
 
 
 class Router extends Component {
-	constructor(props) {
-		super();
-		// set initial url
-		this.state.url = getCurrentUrl(props && props.url);
-	}
+	// constructor(props) {
+	// 	super();
+	// 	// set initial url
+	// 	this.state.url = getCurrentUrl(props && props.url);
+	// }
+	//
+	// routeTo(url) {
+	// 	this.setState({ url });
+	// }
+	//
+	// componentWillMount() {
+	// 	routers.push(this);
+	// }
+	//
+	// componentWillUnmount() {
+	// 	routers.splice(routers.indexOf(this), 1);
+	// }
 
-	routeTo(url) {
-		this.setState({ url });
-	}
-
-	componentWillMount() {
-		routers.push(this);
-	}
-
-	componentWillUnmount() {
-		routers.splice(routers.indexOf(this), 1);
-	}
-
-	render({ children, onChange }, { url }) {
+	render({ children, onChange, url }) {
 		let active = children.slice().sort(pathRankSort).filter( ({ attributes }) => {
 			let path = attributes.path,
 				matches = exec(url, path, attributes);
