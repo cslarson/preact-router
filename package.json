@@ -3,7 +3,7 @@
   "amdName": "preactRouter",
   "version": "1.2.4",
   "description": "Connect your components up to that address bar.",
-  "main": "src/index.js",
+  "main": "dist/preact-router.js",
   "jsnext:main": "src/index.js",
   "minified:main": "dist/preact-router.min.js",
   "scripts": {

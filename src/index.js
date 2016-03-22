@@ -9,12 +9,16 @@ function route(url, replace=false) {
 		url = url.url;
 	}
 	if (history) {
+
 		if (replace===true) {
 			history.replaceState(null, null, url);
 		}
 		else {
 			history.pushState(null, null, url);
 		}
+		// Dispatch event because popstate doesn't get triggered when you do pushState or replaceState
+		var replaceStateEvent = new Event('replaceStateSt');
+		window.dispatchEvent(replaceStateEvent);
 	}
 	// routeTo(url);
 }
