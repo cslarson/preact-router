@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { exec, pathRankSort } from './util';
+import './historyPushEvent';
 
 // const routers = [];
 
