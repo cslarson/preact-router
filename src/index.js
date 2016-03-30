@@ -17,9 +17,6 @@ function route(url, replace=false) {
 		else {
 			history.pushState(null, null, url);
 		}
-		// Dispatch event because popstate doesn't get triggered when you do pushState or replaceState
-		var replaceStateEvent = new Event('replaceStateSt');
-		window.dispatchEvent(replaceStateEvent);
 	}
 	// routeTo(url);
 }
