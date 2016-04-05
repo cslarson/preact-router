@@ -264,7 +264,7 @@
   		}
   		return preact.h(
   			'div',
-  			{ 'class': props.className },
+  			{ 'class': props['class'] },
   			children
   		);
   	};

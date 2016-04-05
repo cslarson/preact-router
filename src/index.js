@@ -115,7 +115,7 @@ class Router extends Component {
 				});
 			}
 		}
-		return <div class={props.className}>{children}</div>;
+		return <div class={props.class}>{children}</div>;
 	}
 }
 
