@@ -73,7 +73,7 @@ class Router extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState){
-		this.lastActive = this.getActive(prevProps);
+		this.lastActive = this.getActive(this.props);
 	}
 
 	getActive({ children, onChange, url }) {
