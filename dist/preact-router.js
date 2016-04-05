@@ -263,7 +263,7 @@
   		}
   		return preact.h(
   			'div',
-  			{ 'class': props['class'] },
+  			{ 'class': props['class'] + (props.transition ? ' transition' : '') },
   			children
   		);
   	};
