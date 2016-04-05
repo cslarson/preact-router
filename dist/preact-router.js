@@ -214,7 +214,7 @@
   	};
 
   	Router.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-  		this.lastActive = this.getActive(prevProps);
+  		this.lastActive = this.getActive(this.props);
   	};
 
   	Router.prototype.getActive = function getActive(_ref2) {
