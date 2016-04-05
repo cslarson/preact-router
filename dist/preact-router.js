@@ -214,7 +214,21 @@
   	};
 
   	Router.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+  		var _this = this;
+
   		this.lastActive = this.getActive(this.props);
+  		if (this.props.transition) {
+  			if (this.transitionTimeout) clearTimeout(this.transitionTimeout);
+  			this.transitionTimeout = setTimeout(function () {
+  				_this.setState({ transitionEnd: true });
+  			}, this.props.transition);
+  		}
+  	};
+
+  	Router.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
+  		if (props.transition) {
+  			this.setState({ transitionEnd: false });
+  		}
   	};
 
   	Router.prototype.getActive = function getActive(_ref2) {
@@ -242,11 +256,13 @@
   		return active[0] || null;
   	};
 
-  	Router.prototype.render = function render(props) {
+  	Router.prototype.render = function render(props, _ref4) {
+  		var transitionEnd = _ref4.transitionEnd;
+
   		var url = props.url;
   		var active = this.getActive(props);
   		var children = [active];
-  		if (props.transition && this.lastActive) {
+  		if (props.transition && this.lastActive && !transitionEnd) {
   			children.unshift(this.lastActive);
   		}
   		var previous = this.previousUrl;
@@ -263,7 +279,7 @@
   		}
   		return preact.h(
   			'div',
-  			{ 'class': props['class'] + (props.transition ? ' transition' : '') },
+  			{ 'class': props['class'] + (props.transition && !transitionEnd ? ' transition' : '') },
   			children
   		);
   	};
@@ -271,10 +287,10 @@
   	return Router;
   })(preact.Component);
 
-  var Route = function Route(_ref4) {
-  	var RoutedComponent = _ref4.component;
-  	var url = _ref4.url;
-  	var matches = _ref4.matches;
+  var Route = function Route(_ref5) {
+  	var RoutedComponent = _ref5.component;
+  	var url = _ref5.url;
+  	var matches = _ref5.matches;
   	return preact.h(RoutedComponent, { url: url, matches: matches });
   };
 

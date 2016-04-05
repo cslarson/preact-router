@@ -74,6 +74,18 @@ class Router extends Component {
 
 	componentDidUpdate(prevProps, prevState){
 		this.lastActive = this.getActive(this.props);
+		if(this.props.transition){
+			if(this.transitionTimeout) clearTimeout(this.transitionTimeout);
+			this.transitionTimeout = setTimeout(()=>{
+				this.setState({transitionEnd: true})
+			}, this.props.transition);
+		}
+	}
+
+	componentWillReceiveProps(props){
+		if(props.transition){
+			this.setState({transitionEnd: false});
+		}
 	}
 
 	getActive({ children, onChange, url }) {
@@ -95,11 +107,11 @@ class Router extends Component {
 		return active[0] || null;
 	}
 
-	render(props) {
+	render(props, {transitionEnd}) {
 		const url = props.url;
 		const active = this.getActive(props);
 		const children = [active];
-		if(props.transition && this.lastActive){
+		if(props.transition && this.lastActive && !transitionEnd){
 			children.unshift(this.lastActive);
 		}
 		let previous = this.previousUrl;
@@ -114,7 +126,7 @@ class Router extends Component {
 				});
 			}
 		}
-		return <div class={props.class + (props.transition ? ' transition' : '')}>{children}</div>;
+		return <div class={props.class + (props.transition && !transitionEnd ? ' transition' : '')}>{children}</div>;
 	}
 }
 
