@@ -68,8 +68,15 @@ class Router extends Component {
 	// componentWillUnmount() {
 	// 	routers.splice(routers.indexOf(this), 1);
 	// }
+	componentDidMount(){
+		this.lastActive = this.getActive(this.props);
+	}
 
-	render({ children, onChange, url }) {
+	componentDidUpdate(prevProps, prevState){
+		this.lastActive = this.getActive(prevProps);
+	}
+
+	getActive({ children, onChange, url }) {
 		let active = children.slice().sort(pathRankSort).filter( ({ attributes }) => {
 			let path = attributes.path,
 				matches = exec(url, path, attributes);
@@ -85,6 +92,17 @@ class Router extends Component {
 				return true;
 			}
 		});
+		return active[0] || null;
+	}
+
+	render(props) {
+		const url = props.url;
+		const active = this.getActive(props);
+		const children = [active];
+		if(this.lastActive){
+			console.log(this.lastActive.nodeName.name);
+			children.unshift(this.lastActive);
+		}
 		let previous = this.previousUrl;
 		if (url!==previous) {
 			this.previousUrl = url;
@@ -93,12 +111,11 @@ class Router extends Component {
 					router: this,
 					url,
 					previous,
-					active,
-					current: active[0]
+					active
 				});
 			}
 		}
-		return active[0] || null;
+		return <div class={props.className}>{children}</div>;
 	}
 }
 

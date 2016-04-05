@@ -209,7 +209,15 @@
   	// 	routers.splice(routers.indexOf(this), 1);
   	// }
 
-  	Router.prototype.render = function render(_ref2) {
+  	Router.prototype.componentDidMount = function componentDidMount() {
+  		this.lastActive = this.getActive(this.props);
+  	};
+
+  	Router.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+  		this.lastActive = this.getActive(prevProps);
+  	};
+
+  	Router.prototype.getActive = function getActive(_ref2) {
   		var children = _ref2.children;
   		var onChange = _ref2.onChange;
   		var url = _ref2.url;
@@ -231,6 +239,17 @@
   				return true;
   			}
   		});
+  		return active[0] || null;
+  	};
+
+  	Router.prototype.render = function render(props) {
+  		var url = props.url;
+  		var active = this.getActive(props);
+  		var children = [active];
+  		if (this.lastActive) {
+  			console.log(this.lastActive.nodeName.name);
+  			children.unshift(this.lastActive);
+  		}
   		var previous = this.previousUrl;
   		if (url !== previous) {
   			this.previousUrl = url;
@@ -239,12 +258,15 @@
   					router: this,
   					url: url,
   					previous: previous,
-  					active: active,
-  					current: active[0]
+  					active: active
   				});
   			}
   		}
-  		return active[0] || null;
+  		return preact.h(
+  			'div',
+  			{ 'class': props.className },
+  			children
+  		);
   	};
 
   	return Router;
