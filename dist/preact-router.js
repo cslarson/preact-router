@@ -262,7 +262,9 @@
   		var url = props.url;
   		var active = this.getActive(props);
   		var children = [active];
-  		if (props.transition && this.lastActive && !transitionEnd) {
+  		if (props.transition && !transitionEnd && this.lastActive) {
+  			active.attributes.transitionClass = 'transition-in';
+  			this.lastActive.attributes.transitionClass = 'transition-out';
   			children.unshift(this.lastActive);
   		}
   		var previous = this.previousUrl;
