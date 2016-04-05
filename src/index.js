@@ -99,8 +99,7 @@ class Router extends Component {
 		const url = props.url;
 		const active = this.getActive(props);
 		const children = [active];
-		if(this.lastActive){
-			console.log(this.lastActive.nodeName.name);
+		if(props.transition && this.lastActive){
 			children.unshift(this.lastActive);
 		}
 		let previous = this.previousUrl;
@@ -115,7 +114,7 @@ class Router extends Component {
 				});
 			}
 		}
-		return <div class={props.class}>{children}</div>;
+		return <div class={props.class + (props.transition ? ' transition' : '')}>{children}</div>;
 	}
 }
 

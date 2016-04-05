@@ -246,8 +246,7 @@
   		var url = props.url;
   		var active = this.getActive(props);
   		var children = [active];
-  		if (this.lastActive) {
-  			console.log(this.lastActive.nodeName.name);
+  		if (props.transition && this.lastActive) {
   			children.unshift(this.lastActive);
   		}
   		var previous = this.previousUrl;
