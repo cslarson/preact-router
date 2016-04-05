@@ -113,8 +113,8 @@ class Router extends Component {
 		const children = [active];
 		const transitioning = props.transition && !transitionEnd && this.lastActive && true;
 		if(transitioning){
-			active.attributes.transitionClass = 'transition-in';
-			this.lastActive.attributes.transitionClass = 'transition-out';
+			active.attributes.transitionClass = 'transitionIn';
+			this.lastActive.attributes.transitionClass = 'transitionOut';
 			children.unshift(this.lastActive);
 		} else {
 			active.attributes.transitionClass = '';
