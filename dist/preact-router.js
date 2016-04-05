@@ -266,6 +266,8 @@
   			active.attributes.transitionClass = 'transition-in';
   			this.lastActive.attributes.transitionClass = 'transition-out';
   			children.unshift(this.lastActive);
+  		} else {
+  			active.attributes.transitionClass = '';
   		}
   		var previous = this.previousUrl;
   		if (url !== previous) {
