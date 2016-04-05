@@ -262,7 +262,8 @@
   		var url = props.url;
   		var active = this.getActive(props);
   		var children = [active];
-  		if (props.transition && !transitionEnd && this.lastActive) {
+  		var transitioning = props.transition && !transitionEnd && this.lastActive && true;
+  		if (transitioning) {
   			active.attributes.transitionClass = 'transition-in';
   			this.lastActive.attributes.transitionClass = 'transition-out';
   			children.unshift(this.lastActive);
@@ -283,7 +284,7 @@
   		}
   		return preact.h(
   			'div',
-  			{ 'class': props['class'] + (props.transition && !transitionEnd ? ' transition' : '') },
+  			{ 'class': props['class'] + (transitioning ? ' transition' : '') },
   			children
   		);
   	};

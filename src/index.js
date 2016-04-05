@@ -111,7 +111,8 @@ class Router extends Component {
 		const url = props.url;
 		const active = this.getActive(props);
 		const children = [active];
-		if(props.transition && !transitionEnd && this.lastActive){
+		const transitioning = props.transition && !transitionEnd && this.lastActive && true;
+		if(transitioning){
 			active.attributes.transitionClass = 'transition-in';
 			this.lastActive.attributes.transitionClass = 'transition-out';
 			children.unshift(this.lastActive);
@@ -130,7 +131,7 @@ class Router extends Component {
 				});
 			}
 		}
-		return <div class={props.class + (props.transition && !transitionEnd ? ' transition' : '')}>{children}</div>;
+		return <div class={props.class + (transitioning ? ' transition' : '')}>{children}</div>;
 	}
 }
 
